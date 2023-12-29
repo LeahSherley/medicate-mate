@@ -1,4 +1,4 @@
-# meditation_app
+# medication_app
 
 A new Flutter project.
 
