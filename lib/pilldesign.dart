@@ -46,16 +46,19 @@ class _PillDesignState extends State<PillDesign> {
       FlutterLocalNotificationsPlugin();
 
   @override
+  
   void initState() {
     super.initState();
-    final settingsAndroid = const AndroidInitializationSettings('medication_removebg_preview');
-    final settingsIOS = IOSInitializationSettings(
+    const settingsAndroid = AndroidInitializationSettings('medication_removebg_preview');
+    /*final settingsIOS = IOSInitializationSettings(
       requestAlertPermission: false,
       requestBadgePermission: false,
       requestSoundPermission: false,
-    );
-    final initializationSettings =
-        InitializationSettings(android: settingsAndroid, iOS: settingsIOS);
+    );*/
+    const initializationSettings =
+        InitializationSettings(android: settingsAndroid,
+        //iOS: settingsIOS
+        );
     flutterLocalNotificationsPlugin.initialize(initializationSettings);
   }
 
@@ -67,33 +70,34 @@ class _PillDesignState extends State<PillDesign> {
 
       const AndroidNotificationDetails androidPlatformChannelSpecifics =
           AndroidNotificationDetails(
-        'daily_reminder',
-        'Daily Reminder',
+        'channelId',
+        'channelName',
         'Daily reminder for medication',
         importance: Importance.high,
         priority: Priority.high,
         channelShowBadge: true,
       );
-      const IOSNotificationDetails iOSPlatformChannelSpecifics =
-          IOSNotificationDetails();
+      /*const IOSNotificationDetails iOSPlatformChannelSpecifics =
+          IOSNotificationDetails();*/
       const NotificationDetails platformChannelSpecifics = NotificationDetails(
           android: androidPlatformChannelSpecifics,
-          iOS: iOSPlatformChannelSpecifics);
+          //iOS: iOSPlatformChannelSpecifics
+          );
 
       final now = DateTime.now();
       final scheduledDate = tz.TZDateTime.local(
         now.year,
         now.month,
         now.day,
-        0,
-        5,
-        0,
+        now.hour + (i*8),
+        now.minute,
+        now.second,
       );
 
       await flutterLocalNotificationsPlugin.zonedSchedule(
         notificationId,
         'Medication Reminder',
-        'Take your medication!',
+        'Time to Take your medication!',
         scheduledDate,
         platformChannelSpecifics,
         androidAllowWhileIdle: true,

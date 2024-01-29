@@ -92,7 +92,7 @@ class _MyLoginState extends State<MyLogin> {
           password: password,
         );
 
-        // If login is successful, set 'isLoggedIn' to true
+       
         final SharedPreferences prefs = await SharedPreferences.getInstance();
         prefs.setBool('isLoggedIn', true);
 

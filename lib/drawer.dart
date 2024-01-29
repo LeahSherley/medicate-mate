@@ -1,6 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:meditation_app/MyProviders/darkmode.dart';
 import 'package:meditation_app/splash.dart';
+import 'package:provider/provider.dart';
 
 class MainDrawer extends StatefulWidget {
   const MainDrawer({super.key});
@@ -11,6 +13,20 @@ class MainDrawer extends StatefulWidget {
 
 class _MainDrawerState extends State<MainDrawer> {
   User? user = FirebaseAuth.instance.currentUser;
+
+  Future<void> deleteAccount() async {
+    try {
+      User? user = FirebaseAuth.instance.currentUser;
+
+      if (user != null) {
+        await user.delete();
+        //print('Account deleted successfully.');
+      }
+    } catch (e) {
+      //print('Error deleting account: $e');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -89,7 +105,30 @@ class _MainDrawerState extends State<MainDrawer> {
               vertical: -1.8,
             ),
             leading: const Icon(
-              Icons.call_rounded,
+              Icons.dark_mode_rounded,
+            ),
+            title: Text(
+              'Dark Mode',
+              style: TextStyle(
+                color: Colors.grey[700],
+                fontSize: 10,
+                fontWeight: FontWeight.w600,
+              ),
+              selectionColor: Colors.blueGrey,
+            ),
+            onTap: () {
+              Provider.of<ThemeProvider>(context, listen: false)
+                  .toggleDarkMode();
+              Navigator.pop(context);
+            },
+          ),
+          /* ListTile(
+            visualDensity: const VisualDensity(
+              horizontal: 0,
+              vertical: -1.8,
+            ),
+            leading: const Icon(
+              Icons.dark_mode_rounded,
             ),
             title: Text(
               style: TextStyle(
@@ -97,11 +136,11 @@ class _MainDrawerState extends State<MainDrawer> {
                 fontSize: 10,
                 fontWeight: FontWeight.w600,
               ),
-              'Contact Us',
+              'Dark Mode',
               selectionColor: Colors.blueGrey,
             ),
             onTap: () {},
-          ),
+          ),*/
           const Divider(
             indent: 7.0,
             endIndent: 7.0,
@@ -152,7 +191,6 @@ class _MainDrawerState extends State<MainDrawer> {
               selectionColor: Colors.blueGrey,
             ),
             onTap: () {
-              
               showDialog(
                 context: context,
                 builder: (BuildContext context) {
@@ -160,10 +198,9 @@ class _MainDrawerState extends State<MainDrawer> {
                     child: CircularProgressIndicator(strokeWidth: 2.0),
                   );
                 },
-                
               );
               FirebaseAuth.instance.signOut();
-              Navigator.pop(context);
+              //Navigator.pop(context);
               Navigator.of(context).pushReplacement(
                 MaterialPageRoute(
                   builder: (BuildContext context) => const SplashScreen(),

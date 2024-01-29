@@ -89,6 +89,7 @@ class _MyRegistrationState extends State<MyRegistration> {
                         fontWeight: FontWeight.w500),
                   )),
             );
+            Navigator.pop(context);
           } else {
             // ignore: use_build_context_synchronously
             ScaffoldMessenger.of(context).showSnackBar(

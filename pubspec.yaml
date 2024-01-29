@@ -45,6 +45,11 @@ dependencies:
   flutter_local_notifications: ^8.2.0
   timezone: ^0.8.0
   firebase_database: ^10.3.6
+  table_calendar: ^3.0.9
+  riverpod: ^2.4.9
+  provider: ^6.1.1
+  
+  
 
 
 dev_dependencies:
@@ -78,6 +83,9 @@ flutter:
     - assets/images/medication-removebg-preview.png
     - assets/images/medics.webp
     - assets/images/medical.webp
+    - assets/images/notification2-removebg-preview.png
+    - assets/images/notificationbar-removebg-preview.png
+
     
 
   # An image asset can refer to one or more resolution-specific "variants", see

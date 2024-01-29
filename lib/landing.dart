@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:meditation_app/MyModels/addpill.dart';
 import 'package:meditation_app/MyWidgets/widgets.dart';
 import 'package:meditation_app/drawer.dart';
+import 'package:meditation_app/notificationlist.dart';
 import 'package:meditation_app/pilldesign.dart';
 import 'package:meditation_app/pilldialogue.dart';
 import 'package:http/http.dart' as http;
@@ -29,50 +30,35 @@ class _LandingScreenState extends State<LandingScreen> {
     super.initState();
   }
 
-  /*void _getMedication() async {
-    try {
-      final url = Uri.https("medicationapp-c4830-default-rtdb.firebaseio.com",
-          "medication-list.json");
-      final response = await http.get(url);
-
-      if (response.statusCode == 200) {
-        final Map<String, dynamic> list = json.decode(response.body);
-
-        setState(() {
-          pills = list.entries
-              .map((entry) =>
-                  Pill(entry.value['pillName'], entry.value['dosage']))
-              .toList();
-        });
-      } else {
-        print(
-            "Failed to fetch medication. Status code: ${response.statusCode}");
-      }
-    } catch (error) {
-      print("Error fetching medication: $error");
-    }
-  }*/
-  /*void _getMedication() async {
+  
+  void _getMedication() async {
     try {
       String userUid = FirebaseAuth.instance.currentUser?.uid ?? '';
-      final url = Uri.https("medicationapp-c4830-default-rtdb.firebaseio.com",
-          "userMedications/$userUid.json");
+      final url = Uri.https(
+        "medicationapp-c4830-default-rtdb.firebaseio.com",
+        "userMedications/$userUid/medication-list.json",
+      );
 
       final response = await http.get(url);
 
       if (response.statusCode == 200) {
-        final Map<String, dynamic> list = json.decode(response.body);
+        final Map<String, dynamic>? userMedications =
+            json.decode(response.body);
 
-        setState(() {
-          pills = list.entries
-              .map(
-                (entry) => Pill(
-                  entry.value['pillName']?? "",
-                  entry.value['dosage']?? "",
-                ),
-              )
-              .toList();
-        });
+        if (userMedications != null) {
+          final List<Pill> fetchedPills = [];
+
+          userMedications.forEach((medicationId, medicationData) {
+            final String pillName = medicationData['pillName'];
+            final String dosage = medicationData['dosage'];
+
+            fetchedPills.add(Pill(pillName, dosage));
+          });
+
+          setState(() {
+            pills = fetchedPills;
+          });
+        }
       } else {
         print(
             "Failed to fetch medication. Status code: ${response.statusCode}");
@@ -80,79 +66,8 @@ class _LandingScreenState extends State<LandingScreen> {
     } catch (error) {
       print("Error fetching medication: $error");
     }
-  }*/
-  /*void _getMedication() async {
-  try {
-    String userUid = FirebaseAuth.instance.currentUser?.uid ?? '';
-    final url = Uri.https(
-      "medicationapp-c4830-default-rtdb.firebaseio.com",
-      "userMedications/$userUid/medication_list.json",
-    );
-
-    final response = await http.get(url);
-
-    if (response.statusCode == 200) {
-      final Map<String, dynamic>? medicationData = json.decode(response.body);
-
-      if (medicationData != null) {
-        final List<Pill> fetchedPills = [];
-
-        medicationData.forEach((key, value) {
-          final String pillName = value['pillName'] ?? '';
-          final String dosage = value['dosage'] ?? '';
-
-          fetchedPills.add(Pill(pillName, dosage));
-        });
-
-        setState(() {
-          pills = fetchedPills;
-        });
-      }
-    } else {
-      print("Failed to fetch medication. Status code: ${response.statusCode}");
-    }
-  } catch (error) {
-    print("Error fetching medication: $error");
   }
-}*/
-void _getMedication() async {
-  try {
-    String userUid = FirebaseAuth.instance.currentUser?.uid ?? '';
-    final url = Uri.https(
-      "medicationapp-c4830-default-rtdb.firebaseio.com",
-      "userMedications/$userUid/medication-list.json",
-    );
 
-    final response = await http.get(url);
-
-    if (response.statusCode == 200) {
-      final Map<String, dynamic>? userMedications = json.decode(response.body);
-
-      if (userMedications != null) {
-        final List<Pill> fetchedPills = [];
-
-        userMedications.forEach((medicationId, medicationData) {
-          final String pillName = medicationData['pillName'];
-          final String dosage = medicationData['dosage'];
-
-          fetchedPills.add(Pill(pillName, dosage));
-        });
-
-        setState(() {
-          pills = fetchedPills;
-        });
-      }
-    } else {
-      print("Failed to fetch medication. Status code: ${response.statusCode}");
-    }
-  } catch (error) {
-    print("Error fetching medication: $error");
-  }
-}
-
-
-
-  
   Future<void> _removeMedication(String pillName) async {
     try {
       String userUid = FirebaseAuth.instance.currentUser?.uid ?? '';
@@ -185,6 +100,7 @@ void _getMedication() async {
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
           return [
             SliverAppBar(
+              
               leading: IconButton(
                 icon: const Icon(
                   Icons.account_circle_rounded,
@@ -202,7 +118,14 @@ void _getMedication() async {
               automaticallyImplyLeading: false,
               actions: [
                 IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.of(context).push<void>(
+                      MaterialPageRoute(
+                        builder: (BuildContext context) =>
+                            const NotificationList(),
+                      ),
+                    );
+                  },
                   icon: const Icon(
                     Icons.notifications_none_rounded,
                     size: 30,
@@ -291,7 +214,6 @@ void _getMedication() async {
                             //pills.removeAt(index);
                             removedPill = pills.removeAt(index);
                             _removeMedication(removedPill!.pillName);
-                            
                           });
                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                             content: mytext("Deleted"),
@@ -319,6 +241,7 @@ void _getMedication() async {
         ),
       ),
       floatingActionButton: FloatingActionButton(
+        //backgroundColor: Colors.deepPurple[200],
         child: Icon(
           Icons.add,
           size: 25,
@@ -326,6 +249,7 @@ void _getMedication() async {
         ),
         onPressed: () async {
           final result = await showModalBottomSheet(
+            //isScrollControlled: true,
             backgroundColor: Colors.deepPurple[300],
             shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.vertical(top: Radius.circular(20.0)),
