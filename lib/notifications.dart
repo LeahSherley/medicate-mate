@@ -19,6 +19,7 @@ class Notify extends StatelessWidget {
     if (arguments != null && arguments is RemoteMessage) {
       message = arguments;
     }
+    
    
     return Scaffold(
       appBar: AppBar(

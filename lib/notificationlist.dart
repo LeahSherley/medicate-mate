@@ -104,8 +104,10 @@ class _NotificationListState extends State<NotificationList> {
 }*/
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:meditation_app/MyProviders/notification.dart';
 import 'package:meditation_app/landing.dart';
 import 'package:meditation_app/notifications.dart';
+import 'package:provider/provider.dart';
 
 class NotificationList extends StatefulWidget {
   const NotificationList({super.key});
@@ -137,10 +139,13 @@ class _NotificationListState extends State<NotificationList> {
 
   void _addMessage() {
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+      /*print("Received notification: $message");
       setState(() {
-        _messages = [..._messages, message];
+        _messages = [..._messages, message];*/
+        Provider.of<NotificationListModel>(context, listen: false)
+          .addMessage(message);
       });
-    });
+  
   }
 
   @override
@@ -200,7 +205,7 @@ class _NotificationListState extends State<NotificationList> {
                   RemoteMessage message = _messages[index];
                   return Container(
                     margin: const EdgeInsets.only(left: 20, right:20, bottom:20,),
-                    padding: const EdgeInsets.all(8),
+                    padding: const EdgeInsets.all(6),
                     decoration: BoxDecoration(
                       color: Colors.deepPurple[100],
                       borderRadius: BorderRadius.circular(10),
@@ -212,6 +217,7 @@ class _NotificationListState extends State<NotificationList> {
                     ),
 
                     child: ListTile(
+                      leading: Image.asset("assets/images/medicine-removebg-preview.png",),
                       isThreeLine: true,
                       title: Text(
                         message.notification?.title ?? "",

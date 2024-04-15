@@ -129,6 +129,7 @@ class _PillDesignState extends State<PillDesign> {
                 }
               },
               child: mytext("OK"),
+              
             ),
           ],
           backgroundColor: Colors.deepPurple[50],
@@ -202,7 +203,7 @@ class _PillDesignState extends State<PillDesign> {
     return GestureDetector(
       child: Card(
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10),
+          borderRadius: BorderRadius.circular(17),
         ),
         color: Colors.deepPurple[100],
         margin: const EdgeInsets.only(
@@ -213,11 +214,11 @@ class _PillDesignState extends State<PillDesign> {
         ),
         child: Container(
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(17),
             gradient: LinearGradient(
               colors: [
+                Colors.deepPurple.shade200,
                 Colors.deepPurple.shade100,
-                Colors.deepPurple.shade50,
               ],
               begin: Alignment.bottomRight,
               end: Alignment.topLeft,

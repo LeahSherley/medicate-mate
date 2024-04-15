@@ -30,7 +30,6 @@ class _LandingScreenState extends State<LandingScreen> {
     super.initState();
   }
 
-  
   void _getMedication() async {
     try {
       String userUid = FirebaseAuth.instance.currentUser?.uid ?? '';
@@ -100,7 +99,6 @@ class _LandingScreenState extends State<LandingScreen> {
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
           return [
             SliverAppBar(
-              
               leading: IconButton(
                 icon: const Icon(
                   Icons.account_circle_rounded,
@@ -241,7 +239,11 @@ class _LandingScreenState extends State<LandingScreen> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        //backgroundColor: Colors.deepPurple[200],
+        
+        shape: RoundedRectangleBorder(
+          borderRadius:
+              BorderRadius.circular(30), 
+        ),
         child: Icon(
           Icons.add,
           size: 25,

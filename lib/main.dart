@@ -18,6 +18,7 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   await pushNotifications().pushNotification();
+  
 
   runApp(const MyApp());
 }
