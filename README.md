@@ -1,17 +1,19 @@
-# medication_app
+# medicateMate
 
-A new Flutter project.
+Your mobile companion for medication reminders and tracking.
 
-## Getting Started
+## Tech Stack
 
-This project is a starting point for a Flutter application.
+- **Flutter**: Cross-platform UI toolkit
+- **Firebase**: Backend services (authentication, messaging and database)
+- **Dart**: Programming language used with Flutter
 
-A few resources to get you started if this is your first Flutter project:
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## Screenshots
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
-# medicationreminder
+![SplashScreen](/app_screenshots/screenshots/Screenshot_20240428-163419.jpg)
+![Login](/app_screenshots/screenshots/Screenshot_20240428-165536.jpg)
+![Home](/app_screenshots/screenshots/Screenshot_20240428-122219.jpg)
+![Reminders](/app_screenshots/screenshots/Screenshot_20240428-122212.jpg)
+![Notifications](/app_screenshots/screenshots/Screenshot_20240428-122231.jpg)
+![Reminder](/app_screenshots/screenshots/Screenshot_20240428-122030.jpg)
